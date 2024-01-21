@@ -61,7 +61,18 @@ textarea {
   color: white;
 }
 
-.saveBtn i:hover {
-  font-size: 20px;
-  transition: all 0.3s ease-in-out;
+.saveBtn:hover i {
+  color: white;
+}
+
+@media screen and (min-width: 450px) {
+   .saveBtn:hover i {
+    color: black;
+  }
+  
+  .saveBtn i:hover {
+    color: black;
+    font-size: 20px;
+    transition: all 0.3s ease-in-out;
+  }
 }
