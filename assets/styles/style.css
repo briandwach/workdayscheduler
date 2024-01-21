@@ -3,6 +3,10 @@ body {
   font-size: 16px;
 }
 
+header {
+  border-bottom: 10px solid black;
+}
+
 textarea {
   background: transparent;
   border: none;
