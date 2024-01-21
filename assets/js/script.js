@@ -64,7 +64,13 @@ function checkTense() {
 };
 
 function loadEvents() {
+  for (var t = 9; t <= 17; t++) {
+    var hour = ('hour-' + t);
+    var description = localStorage.getItem(hour);
 
+    var loadEventEl = $('#' + hour);
+    loadEventEl.children('textarea').val(description);
+  };
 };
 
 function saveEvent() {
