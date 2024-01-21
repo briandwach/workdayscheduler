@@ -75,22 +75,26 @@ function loadEvents() {
 
 function saveEvent() {
   var eventHour = $(this).parent().attr('id');
-  console.log(eventHour);
-
+  
   var eventDescription = $(this).siblings('textarea').val();
   eventDescription = eventDescription.trim();
 
-  console.log(eventDescription);
+  if (eventDescription !== localStorage.getItem(eventHour)) {
   localStorage.setItem(eventHour, eventDescription);
 
   $(this).siblings('textarea').val(eventDescription);
 
   saveConfirmation();
+  };
 };
 
 function saveConfirmation() {
   clearTimeout(confirmTimer);
+  confirmationEl.css('display', 'none');
+
+  setTimeout(function() {
   confirmationEl.css('display', 'block');
+  }, 100);
 
   confirmTimer = setTimeout(function () {
     confirmationEl.css('display', 'none');
