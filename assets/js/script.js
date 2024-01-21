@@ -1,3 +1,39 @@
+var currentDayEl = $('#currentDay');
+
+// https://www.freecodecamp.org/news/format-dates-with-ordinal-number-suffixes-javascript/
+function checkOrdinal(number) {
+  if (number > 3 && number < 21) return "th";
+  switch (number % 10) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
+  };
+};
+
+// Checks current day and renders/updates every second
+function checkTime() {
+  var currentDay = dayjs();
+
+  var ordinal = checkOrdinal(Number(currentDay.format('D')));
+  console.log(ordinal);
+  // REMOVE EVERYTHING AFTER ORDINAL BEFORE PROJECT IS FINISHED
+  currentDayEl.text(currentDay.format('dddd, MMMM D') + ordinal + currentDay.format(' h:mm:ss a'));
+
+  setInterval(function () {
+    currentDay = dayjs();
+
+    ordinal = checkOrdinal(Number(currentDay.format('D')));
+    // REMOVE EVERYTHING AFTER ORDINAL BEFORE PROJECT IS FINISHED
+    currentDayEl.text(currentDay.format('dddd, MMMM D') + ordinal + currentDay.format(' h:mm:ss a'));
+  }, 1000);
+};
+
+
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
@@ -20,4 +56,7 @@ $(function () {
   // attribute of each time-block be used to do this?
   //
   // TODO: Add code to display the current date in the header of the page.
+
+  // Call funcion to render current day and update check/update every second
+  checkTime();
 });
