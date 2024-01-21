@@ -7,6 +7,10 @@ header {
   border-bottom: 10px solid black;
 }
 
+#confirmation {
+  display: none;
+}
+
 textarea {
   background: transparent;
   border: none;
