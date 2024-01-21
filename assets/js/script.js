@@ -1,12 +1,17 @@
 // Define global variables that traverse the DOM
 var currentDay = dayjs();
 var currentDayEl = $('#currentDay');
+var btnEl = $(".btn");
+var confirmationEl = $('#confirmation');
+
+// Defining other global variables
+var confirmTimer = undefined;
 
 
 // Checks current day and renders/updates every second
 function checkTime() {
   var ordinal = checkOrdinal(Number(currentDay.format('D')));
-  
+
   // REMOVE EVERYTHING AFTER ORDINAL BEFORE PROJECT IS FINISHED
   currentDayEl.text(currentDay.format('dddd, MMMM D') + ordinal + currentDay.format(' h:mm:ss a'));
 
@@ -18,7 +23,7 @@ function checkTime() {
     // REMOVE EVERYTHING AFTER ORDINAL BEFORE PROJECT IS FINISHED
     currentDayEl.text(currentDay.format('dddd, MMMM D') + ordinal + currentDay.format(' h:mm:ss a'));
 
-    if (currentDay.format('mm') === ('01')) {
+    if (currentDay.format('mm') === ('00')) {
       checkTense();
     };
 
@@ -43,43 +48,69 @@ function checkOrdinal(number) {
 
 
 function checkTense() {
-    for (var t = 9; t <= 17; t++) {
-      var hour = ('#hour-' + t);
-      var hourEl = $(hour);
-      hourEl.removeClass('past').removeClass('present').removeClass('future');
+  for (var t = 9; t <= 17; t++) {
+    var hour = ('#hour-' + t);
+    var hourEl = $(hour);
+    hourEl.removeClass('past').removeClass('present').removeClass('future');
 
-       if (Number(currentDay.format('H')) > t) {
-        hourEl.addClass('past');
-       } else if (Number(currentDay.format('H')) === t) {
-        hourEl.addClass('present');
-       } else {
-        hourEl.addClass('future');
-       };
-     };
+    if (Number(currentDay.format('H')) > t) {
+      hourEl.addClass('past');
+    } else if (Number(currentDay.format('H')) === t) {
+      hourEl.addClass('present');
+    } else {
+      hourEl.addClass('future');
+    };
+  };
 };
 
+function loadEvents() {
+
+};
+
+function saveEvent() {
+  var eventHour = $(this).parent().attr('id');
+  console.log(eventHour);
+
+  var eventDescription = $(this).siblings('textarea').val();
+  eventDescription = eventDescription.trim();
+
+  console.log(eventDescription);
+  localStorage.setItem(eventHour, eventDescription);
+
+  $(this).siblings('textarea').val(eventDescription);
+
+  saveConfirmation();
+};
+
+function saveConfirmation() {
+  clearTimeout(confirmTimer);
+  confirmationEl.css('display', 'block');
+
+  confirmTimer = setTimeout(function () {
+    confirmationEl.css('display', 'none');
+  }, 3000);
+};
 
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 $(function () {
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-  
+  confirmationEl.css('display', 'none');
 
-  
+  btnEl.on('click', saveEvent);
+
+
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
-  
+
 
   // Call function to render current day and update check/update every second
   checkTime();
 
   // Call function to apply styles to past, present, and future hours
   checkTense();
+
+  // Call function to render descriptions for any previously saved events
+  loadEvents();
 });
