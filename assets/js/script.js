@@ -12,16 +12,16 @@ var confirmTimer = undefined;
 function checkTime() {
   var ordinal = checkOrdinal(Number(currentDay.format('D')));
 
-  // REMOVE EVERYTHING AFTER ORDINAL BEFORE PROJECT IS FINISHED
-  currentDayEl.text(currentDay.format('dddd, MMMM D') + ordinal + currentDay.format(' h:mm:ss a'));
+  
+  currentDayEl.text(currentDay.format('dddd, MMMM D') + ordinal);
 
   setInterval(function () {
     // Every second currentDay is updated to pull current time
     currentDay = dayjs();
 
     ordinal = checkOrdinal(Number(currentDay.format('D')));
-    // REMOVE EVERYTHING AFTER ORDINAL BEFORE PROJECT IS FINISHED
-    currentDayEl.text(currentDay.format('dddd, MMMM D') + ordinal + currentDay.format(' h:mm:ss a'));
+    
+    currentDayEl.text(currentDay.format('dddd, MMMM D') + ordinal);
 
     if (currentDay.format('mm') === ('00')) {
       checkTense();
